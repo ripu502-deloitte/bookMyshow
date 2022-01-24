@@ -18,6 +18,7 @@ public class Attendent {
     @GeneratedValue
     private Long userId;
 
+    @Column(unique=true)
     private String email;
 
     @OneToMany(mappedBy = "attendent")
