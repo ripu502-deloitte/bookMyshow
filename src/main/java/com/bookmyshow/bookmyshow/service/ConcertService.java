@@ -5,4 +5,6 @@ import com.bookmyshow.bookmyshow.dto.ConcertDto;
 public interface ConcertService {
 
     ConcertDto createConcert(ConcertDto concertDto);
+
+    ConcertDto getConcertDetails(Long id);
 }
