@@ -8,6 +8,8 @@ import com.bookmyshow.bookmyshow.service.ConcertService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ConcertServiceImpl implements ConcertService {
 
@@ -43,5 +45,15 @@ public class ConcertServiceImpl implements ConcertService {
     public ConcertDto getConcertDetails(Long id) {
         Concert concert = concertRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Concert", "id", id));
         return mapToDto(concert);
+    }
+
+    @Override
+    public List<Concert> getConcertsForTheUser(Long userId, String dir) {
+        if(dir.equals("past"))
+        {
+            return concertRepository.getListOfConcertInPastForUser(userId);
+        }else{
+            return concertRepository.getListOfConcertInFutureForUser(userId);
+        }
     }
 }
