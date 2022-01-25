@@ -5,15 +5,19 @@ import com.bookmyshow.bookmyshow.entity.Concert;
 import com.bookmyshow.bookmyshow.exception.ResourceNotFoundException;
 import com.bookmyshow.bookmyshow.repository.ConcertRepository;
 import com.bookmyshow.bookmyshow.service.ConcertService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ConcertServiceImpl implements ConcertService {
 
     private ConcertRepository concertRepository;
+    private ModelMapper mapper;
 
-    public ConcertServiceImpl(ConcertRepository concertRepository) {
+
+    public ConcertServiceImpl(ConcertRepository concertRepository, ModelMapper mapper) {
         this.concertRepository = concertRepository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -26,19 +30,12 @@ public class ConcertServiceImpl implements ConcertService {
     }
 
     private ConcertDto mapToDto(Concert newConcert) {
-        ConcertDto response = new ConcertDto();
-
-        response.setName(newConcert.getName());
-        response.setConcertId(newConcert.getConcertId());
-        response.setTime(newConcert.getTime());
-        response.setRegisters(newConcert.getRegisters());
+        ConcertDto response = mapper.map(newConcert, ConcertDto.class);
         return response;
     }
 
     private Concert mapToEntity(ConcertDto concertDto) {
-        Concert concert = new Concert();
-        concert.setName(concertDto.getName());
-        concert.setTime(concertDto.getTime());
+        Concert concert = mapper.map(concertDto, Concert.class);
         return concert;
     }
 

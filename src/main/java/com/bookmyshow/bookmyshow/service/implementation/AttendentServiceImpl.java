@@ -5,15 +5,18 @@ import com.bookmyshow.bookmyshow.entity.Attendent;
 import com.bookmyshow.bookmyshow.exception.ResourceNotFoundException;
 import com.bookmyshow.bookmyshow.repository.AttendentRepository;
 import com.bookmyshow.bookmyshow.service.AttendentService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AttendentServiceImpl implements AttendentService {
 
     private AttendentRepository attendentRepository;
+    private ModelMapper mapper;
 
-    public AttendentServiceImpl(AttendentRepository attendentRepository) {
+    public AttendentServiceImpl(AttendentRepository attendentRepository, ModelMapper mapper) {
         this.attendentRepository = attendentRepository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -35,15 +38,12 @@ public class AttendentServiceImpl implements AttendentService {
     }
 
     private AttendentDto mapToDto(Attendent newAttendent) {
-        AttendentDto response = new AttendentDto();
-        response.setEmail(newAttendent.getEmail());
-        response.setUserId(newAttendent.getUserId());
+        AttendentDto response = mapper.map(newAttendent, AttendentDto.class);
         return response;
     }
 
     private Attendent mapToEntity(AttendentDto attendentDto) {
-        Attendent attendent = new Attendent();
-        attendent.setEmail(attendentDto.getEmail());
+        Attendent attendent = mapper.map(attendentDto, Attendent.class);
         return attendent;
     }
 }
