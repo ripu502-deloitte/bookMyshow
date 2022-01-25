@@ -1,27 +1,27 @@
 package com.bookmyshow.bookmyshow.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.web.bind.annotation.Mapping;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public class Attendent {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long userId;
 
     @Column(unique=true)
     private String email;
 
-    @OneToMany(mappedBy = "attendent")
-    private Set<Transaction> concerts;
+    @OneToMany(mappedBy = "attendent", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Transaction> concerts = new HashSet<>();
 
 }

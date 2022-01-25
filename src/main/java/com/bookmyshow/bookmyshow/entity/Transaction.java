@@ -1,28 +1,29 @@
 package com.bookmyshow.bookmyshow.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Transaction {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long transactionId;
 
     @ManyToOne
-    @MapsId("userId")
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private Attendent attendent;
 
     @ManyToOne
-    @MapsId("concertId")
     @JoinColumn(name = "concert_id")
+    @JsonIgnore
     private Concert concert;
 
     private String status;

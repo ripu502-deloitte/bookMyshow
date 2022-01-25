@@ -1,26 +1,26 @@
 package com.bookmyshow.bookmyshow.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public class Concert {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long concertId;
 
     private String name;
 
     private Long time;
 
-    @OneToMany(mappedBy = "concert")
-    private Set<Transaction> registers;
+    @OneToMany(mappedBy = "concert", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Transaction> registers  = new HashSet<>();
 }
