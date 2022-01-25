@@ -1,12 +1,12 @@
 package com.bookmyshow.bookmyshow.controller;
 
+import com.bookmyshow.bookmyshow.entity.Attendent;
 import com.bookmyshow.bookmyshow.service.TransactionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/transactions")
@@ -24,5 +24,12 @@ public class TransactionController {
     {
         transactionService.registerUserToConcert(concertId, attendentEmail);
         return new ResponseEntity<>("Success", HttpStatus.CREATED);
+    }
+
+    @GetMapping("/concerts/{concertId}/attendent")
+    public ResponseEntity<List<Attendent>> getUsersWithStatus(@PathVariable(name = "concertId") Long concertId,
+                                                              @RequestParam(name = "status", defaultValue = "Success", required = false) String status)
+    {
+        return new ResponseEntity<>(transactionService.getUsersWithStatus(concertId, status), HttpStatus.OK);
     }
 }

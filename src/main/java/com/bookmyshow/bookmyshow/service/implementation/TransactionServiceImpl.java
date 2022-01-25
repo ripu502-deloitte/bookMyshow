@@ -13,6 +13,8 @@ import com.bookmyshow.bookmyshow.service.TransactionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
@@ -46,5 +48,10 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setStatus("Success");
 
         transactionRepository.save(transaction);
+    }
+
+    @Override
+    public List<Attendent> getUsersWithStatus(Long concertId, String status) {
+       return attendentRepository.getListOfUserWithPaymentStatus(status, concertId);
     }
 }
