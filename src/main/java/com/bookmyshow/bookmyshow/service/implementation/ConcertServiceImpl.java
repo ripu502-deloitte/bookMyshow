@@ -1,6 +1,8 @@
 package com.bookmyshow.bookmyshow.service.implementation;
 
+import com.bookmyshow.bookmyshow.controller.EpochConverterProxy;
 import com.bookmyshow.bookmyshow.dto.ConcertDto;
+import com.bookmyshow.bookmyshow.dto.EpochResponse;
 import com.bookmyshow.bookmyshow.entity.Concert;
 import com.bookmyshow.bookmyshow.exception.ResourceNotFoundException;
 import com.bookmyshow.bookmyshow.repository.ConcertRepository;
@@ -15,15 +17,24 @@ public class ConcertServiceImpl implements ConcertService {
 
     private ConcertRepository concertRepository;
     private ModelMapper mapper;
+    private EpochConverterProxy proxy;
 
 
-    public ConcertServiceImpl(ConcertRepository concertRepository, ModelMapper mapper) {
+    public ConcertServiceImpl(ConcertRepository concertRepository,
+                              ModelMapper mapper,
+                              EpochConverterProxy proxy) {
         this.concertRepository = concertRepository;
         this.mapper = mapper;
+        this.proxy = proxy;
     }
 
     @Override
     public ConcertDto createConcert(ConcertDto concertDto) {
+
+        EpochResponse res = proxy.getEpochTimeAfterXdays(5).getBody();
+        System.out.println("_________________________________");
+        System.out.println(res.getPort());
+        System.out.println("_________________________________");
 
         Concert newConcert = mapToEntity(concertDto);
         concertRepository.save(newConcert);

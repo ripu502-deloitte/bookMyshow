@@ -33,3 +33,12 @@ Add the following dependencies
 	 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect  
 	 #Hibernateddlauto(create,create-drop,validate,update)  
 	 spring.jpa.hibernate.ddl-auto=update spring.jpa.show-sql=true      spring.jpa.properties.hibernate.format_sql=true
+
+
+## Updated Application properties for microservice
+
+    spring.application.name=bookmyshow
+    spring.config.import=optional:configserver:http://localhost:8888
+    server.port=8100
+    spring.jpa.defer-datasource-initialization=true
+    eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
